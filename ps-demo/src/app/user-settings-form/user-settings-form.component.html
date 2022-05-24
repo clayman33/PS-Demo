@@ -1,13 +1,21 @@
 <div class="container">
     <h2>User Settings</h2>
 
-    <form #form="ngForm" ngNativeValidate>
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)" >
 
         <div class="form-group">
             <label for="name">Name(names that start C) </label>
             <input id="name" name="name" class="form-control" [(ngModel)]="userData.name"
-            required pattern="C.*" minlength="3"/>        
+              required minlength="3"#nameField="ngModel"
+              (blur)="onBlur(nameField)"
+              [class.fieldError]="nameField.invalid && form.submitted"
+              />
+              <div [hidden]="!form.submitted || nameField.valid" 
+                class="alert alert-danger">
+                Enter a name
+              </div>      
         </div>
+
         <div class="form-check form-group">
             <input class="form-check-input" type="checkbox" id="emailOffers" name="emailOffers" [(ngModel)]="userData.emailOffers"/>
             <label class="form-check-label" for="emailOffers">Email Special Offers</label>
@@ -53,7 +61,11 @@
             <textarea id="notes" name="notes" class="form-control"
                 rows="3" [(ngModel)]="userData.notes"> 
             </textarea><p></p>
-        </div>         
+        </div>  
+        <div [hidden]="!postError"
+            class="alert alert-dange">
+            {{ postErrorMessage }}
+        </div>       
             <button class="btn btn-primary mb-3">Send</button>
     </form>
 </div>
