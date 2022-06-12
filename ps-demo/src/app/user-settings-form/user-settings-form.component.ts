@@ -21,16 +21,17 @@ export class UserSettingsFormComponent implements OnInit {
   };
     singleModel = "On";
     
+    startDate: Date | undefined;
     userData : UserData = { ...this.originalUserData };
     postError = false;
     postErrorMessage = '';
-    subscriptionTypes: Observable<string[]> | undefined;
-    
+    subscriptionTypes: Observable<string[]> | undefined;    
 
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
     this.subscriptionTypes = this.dataService.getSubscriptionTypes();
+    this.startDate = new Date();
   }
 
   onBlur(field : NgModel){
